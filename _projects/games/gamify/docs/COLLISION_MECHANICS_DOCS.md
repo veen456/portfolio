@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Adventure Game - Sample Level Documentation
+title: Collision_Mechanics_Docs
 description: Example of how to document a level while building a team gamify project
 category: Gamify
 breadcrumb: true
