@@ -33,12 +33,12 @@ show_reading_time: false
         </div>
     </a>
     <a href="{{site.baseurl}}/asynchronus_io" style="text-decoration: none;">
-        <div style="background-color: var(--orange); color: white; padding: 10px 20px; border-radius: 5px; font-weight: bold; transition: transform 0.2s, box-shadow 0.2s;">
+        <div style="background-color: var(--green); color: white; padding: 10px 20px; border-radius: 5px; font-weight: bold; transition: transform 0.2s, box-shadow 0.2s;">
            Asynchronus I/O
         </div>
     </a>
     <a href="{{site.baseurl}}/json_parsing" style="text-decoration: none;">
-        <div style="background-color: var(--orange); color: white; padding: 10px 20px; border-radius: 5px; font-weight: bold; transition: transform 0.2s, box-shadow 0.2s;">
+        <div style="background-color: var(--blue); color: white; padding: 10px 20px; border-radius: 5px; font-weight: bold; transition: transform 0.2s, box-shadow 0.2s;">
            JSON Parsing
         </div>
     </a>
