@@ -40,9 +40,9 @@ Hi! My name is Vihaan Budhraja
 
 
 <div style="display: flex; flex-wrap: wrap; gap: 10px;">
-    <a href="{{site.baseurl}}/OOP" style="text-decoration: none;">
+    <a href="{{site.baseurl}}/writing_classes" style="text-decoration: none;">
         <div style="background-color: var(--green); color: black; padding: 10px 20px; border-radius: 5px; font-weight: bold; transition: transform 0.2s, box-shadow 0.2s;">
-           Object-Oriented Programming
+           Writing Classes
         </div>
     </a>
     <a href="{{site.baseurl}}/collision-mechanics" style="text-decoration: none;">
