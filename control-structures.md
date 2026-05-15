@@ -2,6 +2,7 @@
 layout: post 
 title: Portfolio Home 
 hide: true
+permalink: /control-structures
 show_reading_time: false
 ---
 
@@ -44,36 +45,36 @@ Hi! My name is Vihaan Budhraja
            Object-Oriented Programming
         </div>
     </a>
-    <a href="{{site.baseurl}}/control-structures" style="text-decoration: none;">
+    <a href="{{site.baseurl}}/collision-mechanics" style="text-decoration: none;">
         <div style="background-color: var(--blue); color: white; padding: 10px 20px; border-radius: 5px; font-weight: bold; transition: transform 0.2s, box-shadow 0.2s;">
            Control Structures
         </div>
     </a>
-    <a href="{{site.baseurl}}/data-types" style="text-decoration: none;">
+    <a href="{{site.baseurl}}/gamerunner" style="text-decoration: none;">
         <div style="background-color: var(--warn); color: black; padding: 10px 20px; border-radius: 5px; font-weight: bold; transition: transform 0.2s, box-shadow 0.2s;">
            Data Types
         </div>
     </a>
-    <a href="{{site.baseurl}}/operators" style="text-decoration: none;">
+    <a href="{{site.baseurl}}/network/stack" style="text-decoration: none;">
         <div style="background-color: var(--orange); color: white; padding: 10px 20px; border-radius: 5px; font-weight: bold; transition: transform 0.2s, box-shadow 0.2s;">
            Operators
         </div>
     </a>
-    <a href="{{site.baseurl}}/input-output" style="text-decoration: none;">
+    <a href="{{site.baseurl}}/network/stack" style="text-decoration: none;">
         <div style="background-color: var(--orange); color: white; padding: 10px 20px; border-radius: 5px; font-weight: bold; transition: transform 0.2s, box-shadow 0.2s;">
            Input/Output
         </div>
     </a>
-    <a href="{{site.baseurl}}/documentation" style="text-decoration: none;">
+    <a href="{{site.baseurl}}/network/stack" style="text-decoration: none;">
         <div style="background-color: var(--orange); color: white; padding: 10px 20px; border-radius: 5px; font-weight: bold; transition: transform 0.2s, box-shadow 0.2s;">
            Documentation
         </div>
-    </a><a href="{{site.baseurl}}/debugging" style="text-decoration: none;">
+    </a><a href="{{site.baseurl}}/network/stack" style="text-decoration: none;">
         <div style="background-color: var(--orange); color: white; padding: 10px 20px; border-radius: 5px; font-weight: bold; transition: transform 0.2s, box-shadow 0.2s;">
            Debugging
         </div>
     </a>
-    <a href="{{site.baseurl}}/testing-verification" style="text-decoration: none;">
+    <a href="{{site.baseurl}}/network/stack" style="text-decoration: none;">
         <div style="background-color: var(--orange); color: white; padding: 10px 20px; border-radius: 5px; font-weight: bold; transition: transform 0.2s, box-shadow 0.2s;">
            Testing & Verification
         </div>
