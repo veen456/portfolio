@@ -10,9 +10,7 @@ Hi! My name is Vihaan Budhraja
 
 ### Object Orriented Programming
 
-
 > Explore the different kinds of object oriented programming by clicking on each button
-
 
 <div style="display: flex; flex-wrap: wrap; gap: 10px;">
     <a href="{{site.baseurl}}/writing_classes" class="btn">
