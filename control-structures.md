@@ -40,43 +40,19 @@ Hi! My name is Vihaan Budhraja
 
 
 <div style="display: flex; flex-wrap: wrap; gap: 10px;">
-    <a href="{{site.baseurl}}/OOP" style="text-decoration: none;">
+    <a href="{{site.baseurl}}/iteration" style="text-decoration: none;">
         <div style="background-color: var(--green); color: black; padding: 10px 20px; border-radius: 5px; font-weight: bold; transition: transform 0.2s, box-shadow 0.2s;">
-           Object-Oriented Programming
+           Iteration
         </div>
     </a>
-    <a href="{{site.baseurl}}/collision-mechanics" style="text-decoration: none;">
+    <a href="{{site.baseurl}}/conditionals" style="text-decoration: none;">
         <div style="background-color: var(--blue); color: white; padding: 10px 20px; border-radius: 5px; font-weight: bold; transition: transform 0.2s, box-shadow 0.2s;">
-           Control Structures
+           Conditionals
         </div>
     </a>
-    <a href="{{site.baseurl}}/gamerunner" style="text-decoration: none;">
+    <a href="{{site.baseurl}}/nested_conditionals" style="text-decoration: none;">
         <div style="background-color: var(--warn); color: black; padding: 10px 20px; border-radius: 5px; font-weight: bold; transition: transform 0.2s, box-shadow 0.2s;">
-           Data Types
-        </div>
-    </a>
-    <a href="{{site.baseurl}}/network/stack" style="text-decoration: none;">
-        <div style="background-color: var(--orange); color: white; padding: 10px 20px; border-radius: 5px; font-weight: bold; transition: transform 0.2s, box-shadow 0.2s;">
-           Operators
-        </div>
-    </a>
-    <a href="{{site.baseurl}}/network/stack" style="text-decoration: none;">
-        <div style="background-color: var(--orange); color: white; padding: 10px 20px; border-radius: 5px; font-weight: bold; transition: transform 0.2s, box-shadow 0.2s;">
-           Input/Output
-        </div>
-    </a>
-    <a href="{{site.baseurl}}/network/stack" style="text-decoration: none;">
-        <div style="background-color: var(--orange); color: white; padding: 10px 20px; border-radius: 5px; font-weight: bold; transition: transform 0.2s, box-shadow 0.2s;">
-           Documentation
-        </div>
-    </a><a href="{{site.baseurl}}/network/stack" style="text-decoration: none;">
-        <div style="background-color: var(--orange); color: white; padding: 10px 20px; border-radius: 5px; font-weight: bold; transition: transform 0.2s, box-shadow 0.2s;">
-           Debugging
-        </div>
-    </a>
-    <a href="{{site.baseurl}}/network/stack" style="text-decoration: none;">
-        <div style="background-color: var(--orange); color: white; padding: 10px 20px; border-radius: 5px; font-weight: bold; transition: transform 0.2s, box-shadow 0.2s;">
-           Testing & Verification
+           Nested Conditionals
         </div>
     </a>
 </div>

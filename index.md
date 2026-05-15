@@ -33,9 +33,9 @@ Hi! My name is Vihaan Budhraja
 
 <br>
 
-### My Lessons
+### CS111
 
-> Foundations in Tech are essential, click to see some of my lesson creations.
+> Click on the buttons to see the different lessons
 
 
 <div style="display: flex; flex-wrap: wrap; gap: 10px;">
