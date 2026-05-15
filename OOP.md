@@ -45,19 +45,29 @@ Hi! My name is Vihaan Budhraja
            Writing Classes
         </div>
     </a>
-    <a href="{{site.baseurl}}/collision-mechanics" style="text-decoration: none;">
+    <a href="{{site.baseurl}}/methods_parameters" style="text-decoration: none;">
         <div style="background-color: var(--blue); color: white; padding: 10px 20px; border-radius: 5px; font-weight: bold; transition: transform 0.2s, box-shadow 0.2s;">
-           Lesson
+           Methods & Parameters
         </div>
     </a>
-    <a href="{{site.baseurl}}/gamerunner" style="text-decoration: none;">
+    <a href="{{site.baseurl}}/instantiation_objects" style="text-decoration: none;">
         <div style="background-color: var(--warn); color: black; padding: 10px 20px; border-radius: 5px; font-weight: bold; transition: transform 0.2s, box-shadow 0.2s;">
-           Gamerunner
+           Instantiation & Objects
         </div>
     </a>
-    <a href="{{site.baseurl}}/network/stack" style="text-decoration: none;">
+    <a href="{{site.baseurl}}/inheritance" style="text-decoration: none;">
         <div style="background-color: var(--orange); color: white; padding: 10px 20px; border-radius: 5px; font-weight: bold; transition: transform 0.2s, box-shadow 0.2s;">
-           Networking
+           Inheritance
+        </div>
+    </a>
+    <a href="{{site.baseurl}}/method_overriding" style="text-decoration: none;">
+        <div style="background-color: var(--orange); color: white; padding: 10px 20px; border-radius: 5px; font-weight: bold; transition: transform 0.2s, box-shadow 0.2s;">
+           Method Overriding
+        </div>
+    </a>
+    <a href="{{site.baseurl}}/constructor_chaining" style="text-decoration: none;">
+        <div style="background-color: var(--orange); color: white; padding: 10px 20px; border-radius: 5px; font-weight: bold; transition: transform 0.2s, box-shadow 0.2s;">
+           Constructor Chaining
         </div>
     </a>
 </div>
