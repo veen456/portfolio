@@ -9,7 +9,7 @@ class Guard extends Enemy {
 
     /**
      * Override the update method to handle collision detection and update the vertical velocity
-     */
+     */a
     update() {
         // Update begins by drawing the object
         this.draw();
