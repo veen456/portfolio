@@ -21,66 +21,42 @@ Benefits of keyboard input?
 - Build responsive user interfaces
 
 ```javascript
-// Listening to keyboard events
-let keysPressed = {};
+syncPlayerMovementInput() {
+    const player = this.getPlayer();
+    if (!player || !player.pressedKeys) return;
 
-document.addEventListener('keydown', function(event) {
-    keysPressed[event.key] = true;
-});
+    const movementKeys = [
+        ['KeyW', player.keypress.up],
+        ['KeyA', player.keypress.left],
+        ['KeyS', player.keypress.down],
+        ['KeyD', player.keypress.right]
+    ];
 
-document.addEventListener('keyup', function(event) {
-    keysPressed[event.key] = false;
-});
-
-// Check if specific key is pressed
-function checkInput() {
-    if (keysPressed['ArrowLeft']) {
-        console.log("Moving left");
-    }
-    if (keysPressed['ArrowRight']) {
-        console.log("Moving right");
-    }
+    // Check which keys are pressed and move player accordingly
+    movementKeys.forEach(([key, direction]) => {
+        if (player.pressedKeys[key]) {
+            player.move(direction);
+        }
+    });
 }
 ```
 
 What does this code do?
 
-- Listens for `keydown` events when key is pressed
-- Listens for `keyup` events when key is released
-- Stores key states in `keysPressed` object
-- `checkInput()` can check which keys are currently pressed
-- Allows detecting multiple simultaneous key presses
-
-```javascript
-// Movement system using keyboard input
-let playerX = 100;
-let playerY = 300;
-
-document.addEventListener('keydown', function(event) {
-    if (event.key === 'ArrowUp' || event.key === 'w') playerY -= 10;
-    if (event.key === 'ArrowDown' || event.key === 's') playerY += 10;
-    if (event.key === 'ArrowLeft' || event.key === 'a') playerX -= 10;
-    if (event.key === 'ArrowRight' || event.key === 'd') playerX += 10;
-    
-    console.log("Player at (" + playerX + ", " + playerY + ")");
-});
-```
-
-What does this code do?
-
-- Detects arrow keys or WASD keys
-- Updates player position based on key pressed
-- Shows practical game movement system
-- Handles multiple key mappings (arrows or WASD)
-- Demonstrates real-time input handling for games
-
----
+- Gets the current player object from the game
+- Checks if the player and pressedKeys object exist before proceeding
+- Creates an array mapping keyboard keys (W, A, S, D) to movement directions
+- Loops through each key mapping using `forEach()`
+- For each key, checks if it's currently being held down in the `pressedKeys` object
+- If a key is pressed, calls the player's `move()` method with the corresponding direction
+- Handles multiple simultaneous key presses (player can move diagonally)
+- Separates input detection from movement logic for cleaner code
 
 ## Canvas Rendering
 
 What is canvas rendering?
 
-Canvas rendering uses the HTML5 Canvas API to draw graphics, sprites, and animations directly on the screen.
+Canvas rendering uses code to draw a canvas with visuals and update it every frame, allowing for a game to start up and work, changing the screen every frame.
 
 Benefits of canvas rendering?
 
@@ -91,74 +67,47 @@ Benefits of canvas rendering?
 - Build interactive visuals
 
 ```javascript
-// Get canvas and context
-const canvas = document.getElementById('gameCanvas');
-const ctx = canvas.getContext('2d');
+draw() {
+    this.clearCanvas();
+    const ctx = this.ctx;
+    const dstW = Math.max(1, Math.floor(this.canvas.width));
+    const dstH = Math.max(1, Math.floor(this.canvas.height));
 
-// Draw background
-ctx.fillStyle = '#1a1a2e';
-ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.save();
+    ctx.translate(dstW / 2, dstH / 2);
+    ctx.rotate(this.rotation);
+    ctx.shadowColor = 'rgba(184, 242, 230, 0.75)';
+    ctx.shadowBlur = 12;
 
-// Draw player (rectangle)
-ctx.fillStyle = '#00ff00';
-ctx.fillRect(100, 300, 50, 50);
+    if (this.imageLoaded && this.spriteSheet?.complete) {
+        ctx.drawImage(
+            this.spriteSheet,
+            0, 0, this.spriteSheet.naturalWidth, this.spriteSheet.naturalHeight,
+            -dstW / 2, -dstH / 2, dstW, dstH
+        );
+    } else {
+        ctx.fillStyle = '#B8F2E6';
+        ctx.fillRect(-dstW / 2, -dstH / 8, dstW, dstH / 4);
+    }
 
-// Draw enemy (rectangle)
-ctx.fillStyle = '#ff0000';
-ctx.fillRect(200, 300, 50, 50);
-
-// Draw circle
-ctx.fillStyle = '#ffff00';
-ctx.beginPath();
-ctx.arc(150, 150, 30, 0, Math.PI * 2);
-ctx.fill();
-```
-
-What does this code do?
-
-- Gets canvas element and 2D drawing context
-- Draws background rectangle
-- Draws player as green rectangle
-- Draws enemy as red rectangle
-- Draws yellow circle
-- Shows basic canvas drawing operations
-
-```javascript
-// Draw a complete game scene
-function drawGameScene(ctx, canvas) {
-    // Draw background
-    const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-    gradient.addColorStop(0, '#1a1a2e');
-    gradient.addColorStop(1, '#16213e');
-    ctx.fillStyle = gradient;
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    
-    // Draw game objects
-    const gameObjects = [
-        { x: 100, y: 300, size: 50, color: '#00ff00' },
-        { x: 200, y: 300, size: 50, color: '#ff0000' }
-    ];
-    
-    gameObjects.forEach(obj => {
-        ctx.fillStyle = obj.color;
-        ctx.fillRect(obj.x, obj.y, obj.size, obj.size);
-    });
-    
-    // Draw text
-    ctx.fillStyle = '#ffffff';
-    ctx.font = '20px Arial';
-    ctx.fillText('Game Running', 10, 30);
+    ctx.restore();
+    this.setupCanvas();
 }
 ```
 
 What does this code do?
 
-- Creates gradient background for canvas
-- Draws multiple game objects using loop
-- Sets fill styles for colors
-- Renders rectangles and text
-- Shows complete game scene rendering
-- Demonstrates multiple canvas drawing techniques together
+- `clearCanvas()` removes everything drawn in the previous frame
+- Gets the 2D canvas context (`ctx`) for drawing operations
+- Calculates destination width and height, ensuring minimum value of 1 to prevent errors
+- `ctx.save()` saves the current canvas state (styles, transformations) to a stack
+- `ctx.translate()` moves the drawing origin to the center of the canvas
+- `ctx.rotate()` rotates the sprite by the object's rotation angle
+- Sets up shadow effects: `shadowColor` (cyan with transparency) and `shadowBlur` (12 pixels)
+- If sprite image is loaded, uses `drawImage()` to draw the sprite sheet at the center position with proper scaling
+- If sprite isn't loaded yet, draws a placeholder rectangle (fallback)
+- `ctx.restore()` restores the previous canvas state, undoing the transformations
+- `setupCanvas()` prepares the canvas for the next frame
 
 ---
 
@@ -175,84 +124,60 @@ Benefits of game environment configuration?
 - Initialize game settings
 - Set up game objects
 - Prepare rendering environment
-
-```javascript
-// Game environment configuration
-const gameEnv = {
-    // Canvas settings
-    innerWidth: 800,
-    innerHeight: 600,
-    path: "/path/to/game",
-    
-    // Asset paths
-    imagePath: "/images/gamebuilder",
-    spriteSheet: "/images/gamebuilder/sprites/astro.png",
-    
-    // Game settings
-    SCALE_FACTOR: 5,
-    STEP_FACTOR: 1000,
-    ANIMATION_RATE: 50,
-    
-    // Initial objects
-    objects: [
-        { type: "player", x: 100, y: 300 },
-        { type: "npc", x: 300, y: 300 }
-    ]
+ ```javascript
+ // Background configuration
+const image_data_background = {
+    name: 'background',
+    greeting: "Wave Defense! Defeat all enemies to proceed!",
+    src: path + "/images/projects/mansionGame/level4.png",
+    pixels: { height: 1600, width: 1600 }
 };
 
-console.log("Game configured:", gameEnv);
-```
-
-What does this code do?
-
-- Sets game canvas dimensions
-- Configures asset file paths
-- Sets rendering parameters like scale and animation rate
-- Lists initial game objects
-- Centralizes all configuration in one object
-- Makes configuration easy to modify
-
-```javascript
-// Advanced configuration from collisions-mechanic
-const advancedGameEnv = {
-    // Canvas
-    innerWidth: 800,
-    innerHeight: 600,
-    path: "/projects/collisions-mechanic",
-    
-    // Player configuration
-    player: {
-        SCALE_FACTOR: 5,
-        ANIMATION_RATE: 50,
-        INIT_POSITION: { x: 100, y: 300 },
-        keypress: { up: 87, left: 65, down: 83, right: 68 }
-    },
-    
-    // Enemy configuration
-    enemy: {
-        SCALE_FACTOR: 8,
-        ANIMATION_RATE: 50,
-        INIT_POSITION: { x: 200, y: 300 }
-    },
-    
-    // Difficulty settings
-    difficulty: 'normal',
-    difficulty_settings: {
-        easy: { enemySpeed: 2, enemyHealth: 25 },
-        normal: { enemySpeed: 4, enemyHealth: 50 },
-        hard: { enemySpeed: 6, enemyHealth: 100 }
-    }
+// Player sprite configuration
+const sprite_data_player = {
+    id: 'Spook',
+    greeting: "You shouldn't be reading this.",
+    src: path + "/images/projects/mansionGame/spookMcWalk.png",
+    SCALE_FACTOR: 6,
+    STEP_FACTOR: 500,
+    ANIMATION_RATE: 11,
+    INIT_POSITION: { x: width * 0.1, y: height / 2 },
+    pixels: { height: 2400, width: 3600 },
+    orientation: { rows: 2, columns: 3 },
+    down:      { row: 1, start: 0, columns: 3 },
+    downRight: { row: 1, start: 0, columns: 3, rotate:  Math.PI / 16 },
+    downLeft:  { row: 0, start: 0, columns: 3, rotate: -Math.PI / 16 },
+    left:      { row: 0, start: 0, columns: 3 },
+    right:     { row: 1, start: 0, columns: 3 },
+    up:        { row: 1, start: 0, columns: 3 },
+    upLeft:    { row: 0, start: 0, columns: 3, rotate:  Math.PI / 16 },
+    upRight:   { row: 1, start: 0, columns: 3, rotate: -Math.PI / 16 },
+    hitbox: { widthPercentage: 0.45, heightPercentage: 0.2 },
+    keypress: { up: 87, left: 65, down: 83, right: 68 } // W A S D
 };
-```
 
+// Register game objects
+this.classes = [
+    { class: GameEnvBackground, data: image_data_background },
+    { class: Player, data: sprite_data_player }
+];
+ ```
 What does this code do?
 
-- Organizes configuration by component (player, enemy)
-- Includes difficulty levels with different settings
-- Centralizes all game parameters
-- Makes it easy to adjust difficulty
-- Shows nested configuration structure
-- Demonstrates production-level game configuration
+- **Background configuration** stores metadata about the level background image including name, greeting message, image path, and pixel dimensions
+- **Player configuration** (`sprite_data_player`) stores all the settings needed to create and animate the player character
+- `id: 'Spook'` identifies the player sprite
+- `src` points to the sprite sheet image file
+- `SCALE_FACTOR: 6` controls how large the sprite is drawn on canvas
+- `STEP_FACTOR: 500` controls movement speed (higher = slower)
+- `ANIMATION_RATE: 11` controls how fast sprite animations play (frames per animation)
+- `INIT_POSITION` sets where the player starts (10% from left, centered vertically)
+- `pixels` stores the total sprite sheet dimensions (2400 x 3600)
+- `orientation` defines the sprite sheet layout (2 rows, 3 columns of animation frames)
+- Direction objects (`down`, `left`, `right`) specify which animation frame row and number of columns for each direction
+- Some directions include `rotate` to tilt the sprite (e.g., diagonal movement uses rotation)
+- `hitbox` defines collision area as a percentage of sprite size (45% width, 20% height)
+- The `this.classes` array registers both game objects with their configuration data so the engine can initialize them
 
 ---
 
@@ -261,6 +186,7 @@ What does this code do?
 What is API integration?
 
 API integration connects your game to external servers to fetch data, save progress, and communicate with other systems.
+An API is an application programming interface
 
 Benefits of API integration?
 
@@ -271,85 +197,67 @@ Benefits of API integration?
 - Enable multiplayer features
 
 ```javascript
-// Fetch game level data from API
-async function loadLevel(levelId) {
-    try {
-        // Request level data
-        const response = await fetch(`/api/levels/${levelId}`);
-        
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        
-        const levelData = await response.json();
-        
-        // Initialize level with data
-        console.log("Level loaded:", levelData);
-        return levelData;
-    } catch (error) {
-        console.error("Failed to load level:", error);
-    }
+/**
+ * Plays back the current sequence by making gravestones glow in order
+ */
+async showSequenceToPlayer() {
+  const GLOW_TIME = 600;   // How long each gravestone glows (milliseconds)
+  const PAUSE_TIME = 300;  // Pause between each glow (milliseconds)
+
+  // Play each gravestone in the sequence
+  for (let i = 0; i < this.memoryGame.sequence.length; i++) {
+    const gravestoneNumber = this.memoryGame.sequence[i];
+    
+    await this.delayFor(PAUSE_TIME);              // Short pause
+    await this.makeGravestoneGlow(gravestoneNumber, GLOW_TIME);  // Glow
+  }
+
+  // Sequence complete - now it's the player's turn!
+  this.memoryGame.isPlayerTurn = true;
+  if (this.statusDisplay) {
+    this.statusDisplay.innerHTML = 'Your turn! Click the gravestones in order.';
+  }
 }
 
-// Save player progress
-async function saveProgress(playerId, progress) {
-    await fetch(`/api/players/${playerId}/progress`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(progress)
-    });
-}
-```
+/**
+ * Makes a specific gravestone glow for a duration
+ * @param {number} gravestoneNumber - Which gravestone to glow (1-6)
+ * @param {number} durationMs - How long to glow in milliseconds
+ */
+async makeGravestoneGlow(gravestoneNumber, durationMs) {
+  const gravestone = this.memoryGame.gravestones.find(
+    gs => gs.spriteData.gravestoneIndex === gravestoneNumber
+  );
 
-What does this code do?
+  if (!gravestone || !gravestone.canvas) return;
 
-- Fetches level data from API endpoint
-- Checks if response is successful
-- Parses JSON response
-- Handles errors gracefully
-- Saves player progress to server
-- Shows both reading and writing API data
+  const originalFilter = gravestone.canvas.style.filter;
+  
+  gravestone.canvas.style.filter = 'brightness(2) drop-shadow(0 0 20px yellow)';
+  gravestone.canvas.style.transition = 'filter 0.2s';
 
-```javascript
-// Complete game data lifecycle
-async function initializeGame(playerId) {
-    try {
-        // Load player profile
-        const playerData = await fetch(`/api/players/${playerId}`)
-            .then(r => r.json());
-        
-        // Load current level
-        const levelData = await fetch(`/api/levels/${playerData.currentLevel}`)
-            .then(r => r.json());
-        
-        // Load player inventory
-        const inventoryData = await fetch(`/api/players/${playerId}/inventory`)
-            .then(r => r.json());
-        
-        // Initialize game with all data
-        const gameState = {
-            player: playerData,
-            level: levelData,
-            inventory: inventoryData,
-            startTime: Date.now()
-        };
-        
-        return gameState;
-    } catch (error) {
-        console.error("Game initialization failed:", error);
-        return null;
-    }
+  await this.delayFor(durationMs);
+
+  gravestone.canvas.style.filter = originalFilter;
 }
 ```
 
 What does this code do?
 
-- Loads player profile from API
-- Loads level data based on player's current level
-- Loads player inventory
-- Combines all data into single game state
-- Records game start time
-- Shows complete game initialization workflow
+- **showSequenceToPlayer()** uses `async` keyword to handle asynchronous operations, allowing delays between actions
+- Defines timing constants: `GLOW_TIME` (600ms each gravestone glows) and `PAUSE_TIME` (300ms pause between gravestones)
+- Loops through each number stored in `this.memoryGame.sequence` array
+- `await this.delayFor(PAUSE_TIME)` pauses execution for 300ms before glowing the next gravestone
+- `await this.makeGravestoneGlow()` pauses execution while making a gravestone glow, then continues when complete
+- Sets `isPlayerTurn = true` to signal the game is waiting for player input
+- Updates the status display to tell the player it's their turn
+- **makeGravestoneGlow()** finds the specific gravestone object by matching its index
+- Saves the original filter style to restore it later
+- Applies visual effects: `brightness(2)` makes it twice as bright, `drop-shadow` adds a glowing yellow shadow
+- `transition: 'filter 0.2s'` smoothly animates the filter change over 0.2 seconds
+- Waits for the specified duration using `await this.delayFor(durationMs)`
+- Restores the original filter after the glow time ends
+- Demonstrates how `async/await` enables smooth, timed animations in games
 
 ---
 
@@ -368,42 +276,32 @@ Benefits of asynchronous I/O?
 - Essential for modern web applications
 
 ```javascript
-// Modern async/await approach
-async function loadGameState() {
-    try {
-        // Simulate fetching level data
-        const levelResponse = await fetch('/api/levels/1');
-        const levelData = await levelResponse.json();
-        
-        // Simulate fetching player data
-        const playerResponse = await fetch('/api/player');
-        const playerData = await playerResponse.json();
-        
-        // Combine data
-        const gameState = {
-            level: levelData,
-            player: playerData
-        };
-        
-        console.log("Game state loaded:", gameState);
-        return gameState;
-    } catch (error) {
-        console.error("Failed to load game state:", error);
-    }
-}
+/**
+ * Plays back the current sequence by making gravestones glow in order
+ */
+async showSequenceToPlayer() {
+  const GLOW_TIME = 600;   // How long each gravestone glows (milliseconds)
+  const PAUSE_TIME = 300;  // Pause between each glow (milliseconds)
 
-// Call async function
-loadGameState();
+  // Play each gravestone in the sequence
+  for (let i = 0; i < this.memoryGame.sequence.length; i++) {
+    const gravestoneNumber = this.memoryGame.sequence[i];
+    
+    await this.delayFor(PAUSE_TIME);              // Short pause
+    await this.makeGravestoneGlow(gravestoneNumber, GLOW_TIME);  // Glow
+  }
+
+  // Sequence complete - now it's the player's turn!
+  this.memoryGame.isPlayerTurn = true;
+  if (this.statusDisplay) {
+    this.statusDisplay.innerHTML = 'Your turn! Click the gravestones in order.';
+  }
+}
 ```
 
 What does this code do?
 
-- Defines asynchronous function that takes a callback
-- Uses `setTimeout` to simulate delayed operation
-- Continues executing without blocking
-- Calls callback when operation completes
-- Callback receives the loaded data
-- Shows basic asynchronous pattern
+
 
 ---
 
@@ -448,20 +346,3 @@ What does this code do?
 - Useful for storing and sending data
 - Both are essential for working with APIs and files
 
-```javascript
-// Parsing array of game objects
-const gameDataJson = '[{"type":"guard","x":200,"y":100},{"type":"npc","x":300,"y":150}]';
-const gameObjects = JSON.parse(gameDataJson);
-
-gameObjects.forEach(obj => {
-    console.log(obj.type + " at (" + obj.x + ", " + obj.y + ")");
-});
-```
-
-What does this code do?
-
-- Parses JSON array containing game objects
-- Converts text into usable JavaScript array
-- Loops through parsed objects
-- Shows how to work with data from servers
-- Demonstrates JSON parsing with complex data structures
