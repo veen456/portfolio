@@ -154,46 +154,33 @@ Benefits of instantiation?
 - Scalability - quickly add more objects
 
 ```javascript
-// Define configuration objects
-const bgData = {
-    path: "/images/gamebuilder/backgrounds/",
-    width: 800,
-    height: 600
-};
+ const enemyData = {
+                id: `waveEnemy_${this.currentWave}_${i}`,
+                src: sprite_src,
+                SCALE_FACTOR: 5,
+                STEP_FACTOR: 0,
+                ANIMATION_RATE: 8,
+                INIT_POSITION: { x: xPos, y: yPos },
+                pixels: { height: 1000, width: 3000 }, // full spritesheet dimensions
+                orientation: { rows: 2, columns: 6 },
+                left:  { row: 0, start: 0, columns: 6 }, // top row = ghost leaning left
+                right: { row: 1, start: 0, columns: 6 }, // bottom row = ghost leaning right
+                up:    { row: 0, start: 0, columns: 6 },
+                down:  { row: 1, start: 0, columns: 6 },
+                hitbox: { widthPercentage: 0.4, heightPercentage: 0.5 },
+                healthPoints: 1,
+                speed: speed
+            };
 
-const playerData = {
-    x: 100,
-    y: 300,
-    width: 50,
-    height: 50
-};
-
-const npcData = {
-    x: 200,
-    y: 300,
-    width: 50,
-    height: 50,
-    speed: 2
-};
-
-// Instantiate objects from classes
-const background = new GameEnvBackground(bgData);
-const player = new Player(playerData);
-const npc = new ExampleEnemy(npcData);
-
-console.log("Player position:", player.x, player.y);
-console.log("NPC position:", npc.x, npc.y);
+            const enemy = new WaveEnemy(enemyData, this.gameEnv);
+            this.waveEnemies.push(enemy);
+            this.gameEnv.gameObjects.push(enemy);
+        }
+    }
 ```
-
-What does this code do?
-
-- Creates data objects with configuration properties
-- Uses `new` keyword to instantiate classes
-- Each `new` call creates separate instance with own properties
-- Can access and modify properties independently
-- Shows how configuration data becomes class instances
-- Demonstrates three separate objects from different classes
-
+In this code from our game level:
+- We make a class called `enemyData`
+- We use the keyword `new` to instantiate the enemy using the enemy class.
 ---
 
 ## Inheritence

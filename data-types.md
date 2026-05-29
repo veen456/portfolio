@@ -21,67 +21,33 @@ Benefits of using numbers?
 - Manage game parameters and settings
 
 ```javascript
-const playerHealth = 100;
-const playerScore = 2500;
-const playerX = 150.5;
-const playerY = 300.75;
+class WaveManager {
+    constructor(gameEnv) {
+        this.gameEnv = gameEnv;
+        this.waves = [
+            { count: 5,  speed: 1.5  },  // Wave 1
+            { count: 9, speed: 2.5  },  // Wave 2
+            { count: 17,speed: 3.5  }   // Wave 3
+        ];
 
-// Basic arithmetic
-const totalScore = playerScore + 500;
-const damage = playerHealth - 25;
-const multiplier = playerScore * 2;
-const halfDamage = 50 / 2;
-const remainder = 10 % 3;
+        this.currentWave = 0;
+        this.waveEnemies = [];
+        this.waveActive = false;
+        this.waveStartTime = 0;
+        this.npcSpawned = false;
+        this._playerDead = false;
 
-console.log("Score: " + playerScore);
-console.log("Position: " + playerX + ", " + playerY);
-console.log("Health after damage: " + damage);
+        // Projectile system
+        this.projectiles = [];
+        this.lastAttackTime = Date.now();
+        this.attackCooldown = 250; // 0.25s between shots
 
-// Math methods
-console.log(Math.round(playerY)); // 301
-console.log(Math.floor(playerY)); // 300
-console.log(Math.ceil(playerY)); // 301
-console.log(Math.random()); // random 0-1
-```
-
-```javascript
-// Distance calculation and more advanced math
-const player = { x: 100, y: 100 };
-const target = { x: 300, y: 150 };
-
-const dx = target.x - player.x;
-const dy = target.y - player.y;
-const distance = Math.sqrt(dx * dx + dy * dy);
-
-console.log("Distance: " + distance);
-
-// Percentage and scaling
-const maxHealth = 100;
-const currentHealth = 75;
-const healthPercent = (currentHealth / maxHealth) * 100;
-
-console.log("Health: " + healthPercent + "%");
-
-// Clamping values
-function clamp(value, min, max) {
-    if (value < min) return min;
-    if (value > max) return max;
-    return value;
-}
-
-const playerX = 500;
-const screenWidth = 800;
-const clampedX = clamp(playerX, 0, screenWidth);
 ```
 
 What does this code do?
-
-- Calculates distance using Pythagorean theorem with `Math.sqrt()`
-- Computes percentage of health remaining
-- Creates `clamp()` function to keep values within a range
-- Essential math operations used constantly in games
-- Shows how to handle positions, health bars, and boundaries
-
+- The numbers for each wave represent how many enemies there are and their velocity.
+- Both of these aspects are controlled by numbers
+- The player attack cooldown is also controlled by numbers (250 milliseconds or 0.25 second shot cooldown)
 ---
 
 ## Strings
@@ -99,36 +65,24 @@ Benefits of using strings?
 - Parse and process textual information
 
 ```javascript
-const playerName = "Astro";
-const message = "Welcome to the game!";
-const greeting = 'Hello!';
+winLevel() {
+        if (this.levelWon) return;
+        this.levelWon = true;
 
-// String concatenation
-const fullMessage = playerName + " says: " + message;
-console.log(fullMessage);
+        console.log("🎉 Level 4 Won!");
 
-// String properties
-console.log(playerName.length); // 5
-console.log(message.toUpperCase()); // WELCOME TO THE GAME!
-console.log(message.toLowerCase()); // welcome to the game!
-console.log(message.includes("game")); // true
-console.log(message.charAt(0)); // W
-
-// Template literals
-const levelName = "Alien Planet";
-const description = `You are on the ${levelName}. Stay alert!`;
-console.log(description);
+        const dialogueSystem = new DialogueSystem();
+        dialogueSystem.showDialogue(
+            'You have defeated all waves! You are a true warrior!',
+            'Victory!',
+            this.gameEnv.path + '/images/projects/mansionGame/key_lvl3.png'
+        );
 ```
 
 What does this code do?
 
-- Creates three strings with different values and quote styles
-- Combines strings using the `+` operator (concatenation)
-- Uses `.length` to count characters
-- Uses `.toUpperCase()` and `.toLowerCase()` to change case
-- Uses `.includes()` to check if text is in the string
-- Uses `.charAt()` to get a specific character
-- Uses template literals with `${}` to embed variables
+- We use a string to type to the console is the player has won the game
+- Strings use quotation marks to define themselves from other data types
 
 ---
 
@@ -191,6 +145,19 @@ What are arrays?
 
 Arrays are a way to store multiple values in a single variable. Instead of creating separate variables for each value, you can group them together in an ordered list.
 
+### Common Array Functions
+
+| Function | Purpose | Example |
+|----------|---------|---------|
+| **push()** | Adds element to the end | `arr.push(5)` |
+| **pop()** | Removes last element | `arr.pop()` |
+| **length** | Gets number of elements | `arr.length` |
+| **[index]** | Access element by position | `arr[0]` gets first item |
+| **forEach()** | Loop through each element | `arr.forEach(x => console.log(x))` |
+| **map()** | Transform each element | `arr.map(x => x * 2)` |
+| **filter()** | Select elements that match | `arr.filter(x => x > 5)` |
+| **indexOf()** | Find position of element | `arr.indexOf(5)` |
+
 Benefits of using arrays?
 
 - Store multiple values with one variable name
@@ -201,37 +168,29 @@ Benefits of using arrays?
 
 ```javascript
 // Creating and using arrays
-const gameObjects = ['player', 'guard', 'npc', 'background'];
+const playerStartX = width * 0.1;
+const playerStartY = height / 2;
+const minSpawnDist = Math.min(width, height) * 0.5;
+const minGhostSpacing = 150; // Minimum distance between ghosts
 
-// Accessing array elements
-console.log(gameObjects[0]); // player
-console.log(gameObjects[2]); // npc
+const spawnedPositions = []; // Track all spawned ghost positions
 
-// Adding items
-gameObjects.push('collectible');
-
-// Getting length
-console.log(gameObjects.length); // 5
-
-// Looping through array
-for (let i = 0; i < gameObjects.length; i++) {
-    console.log(gameObjects[i]);
+for (let i = 0; i < count; i++) {
+    let xPos, yPos;
+    let validSpawn = false;
+    // Loop continues to spawn ghosts at valid positions
+    spawnedPositions.push({x: xPos, y: yPos}); // Add position to array
 }
-
-// Using forEach method
-gameObjects.forEach(item => {
-    console.log("Item: " + item);
-});
 ```
 
 What does this code do?
 
-- Creates an array with 4 game object names
-- Accesses individual items using index notation (0 = first item)
-- Uses `push()` to add a new item to the end
-- Gets the `length` property to count items
-- Loops through each item with a `for` loop
-- Uses `forEach()` method to run code for each item
+- Creates an empty array called `spawnedPositions` to store ghost positions
+- Uses a `for` loop to iterate and create multiple ghost spawn positions
+- Adds each new position object to the array using the `push()` method
+- Each position is stored in order, allowing you to access them later by index
+- The array grows dynamically as new positions are added
+- This pattern is useful for tracking collections of game objects
 
 ---
 
@@ -250,38 +209,45 @@ Benefits of using objects?
 - Structure data in a readable way
 
 ```javascript
-const player = {
-    name: "Astro",
-    health: 100,
-    score: 0,
-    position: { x: 100, y: 300 },
-    inventory: ["shield", "weapon"]
+const image_data_background = {
+    name: 'background',
+    greeting: "Wave Defense! Defeat all enemies to proceed!",
+    src: path + "/images/projects/mansionGame/lvl4.png",
+    pixels: { height: 1600, width: 1600 }
 };
 
-// Accessing properties
-console.log(player.name); // Astro
-console.log(player.health); // 100
-console.log(player.position.x); // 100
-console.log(player.inventory[0]); // shield
-
-// Modifying properties
-player.health -= 20;
-player.score += 100;
-
-// Adding new properties
-player.level = 1;
-
-// Using in functions
-function displayPlayer(character) {
-    console.log(character.name + " has " + character.health + " health");
-}
+// Player
+const sprite_data_player = {
+    id: 'Spook',
+    greeting: "Hi, I am Spook.",
+    src: path + "/images/projects/mansionGame/spookMcWalk.png",
+    SCALE_FACTOR: 6,
+    STEP_FACTOR: 500,
+    ANIMATION_RATE: 10,
+    INIT_POSITION: { x: width * 0.1, y: height / 2 },
+    pixels: { height: 2400, width: 3600 },
+    orientation: { rows: 2, columns: 3 },
+    down:      { row: 1, start: 0, columns: 3 },
+    downRight: { row: 1, start: 0, columns: 3, rotate:  Math.PI / 16 },
+    downLeft:  { row: 0, start: 0, columns: 3, rotate: -Math.PI / 16 },
+    left:      { row: 0, start: 0, columns: 3 },
+    right:     { row: 1, start: 0, columns: 3 },
+    up:        { row: 1, start: 0, columns: 3 },
+    upLeft:    { row: 0, start: 0, columns: 3, rotate:  Math.PI / 16 },
+    upRight:   { row: 1, start: 0, columns: 3, rotate: -Math.PI / 16 },
+    hitbox: { widthPercentage: 0.45, heightPercentage: 0.2 },
+    keypress: { up: 87, left: 65, down: 83, right: 68 } // W A S D
+};
 ```
 
 What does this code do?
 
-- Creates an object with multiple properties
-- Objects can contain nested objects and arrays
-- Accesses properties using dot notation
-- Modifies property values
-- Adds new properties to existing object
-- Passes objects to functions
+- The `image_data_background` object stores metadata about the game background image as key-value pairs
+- The `pixels` property contains a nested object that holds the image dimensions
+- The `sprite_data_player` object stores all the configuration data for a player character in one place
+- Nested objects like `INIT_POSITION`, `pixels`, and `orientation` organize related data together
+- Direction objects (`down`, `left`, `right`, etc.) contain animation frame data for each movement direction
+- The `keypress` property maps keyboard keys (by code) to movement directions
+- Accessing properties is done with dot notation: `sprite_data_player.id` returns `'Spook'`
+- This pattern keeps related data organized and makes code more maintainable
+
