@@ -50,47 +50,6 @@ What does this code do?
 - Math.abs() gets absolute value
 - Math.sqrt() calculates square root
 - Essential for game calculations
-
-```javascript
-// Real-world game math examples
-function calculateDistance(x1, y1, x2, y2) {
-    // Distance formula: √((x2-x1)² + (y2-y1)²)
-    let dx = x2 - x1;
-    let dy = y2 - y1;
-    return Math.sqrt(dx * dx + dy * dy);
-}
-
-function clamp(value, min, max) {
-    // Keep value between min and max
-    return Math.max(min, Math.min(max, value));
-}
-
-function randomRange(min, max) {
-    // Random integer between min and max
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-// Usage in game
-let playerX = 100, playerY = 300;
-let enemyX = 200, enemyY = 350;
-let distance = calculateDistance(playerX, playerY, enemyX, enemyY);
-
-let playerHealth = 150;
-let damageReduction = 25;
-playerHealth = clamp(playerHealth - damageReduction, 0, 100);
-
-let randomScore = randomRange(10, 100);
-```
-
-What does this code do?
-
-- `calculateDistance()` uses Pythagorean theorem for collision detection
-- `clamp()` keeps values within acceptable ranges
-- `randomRange()` generates random integers for game events
-- Shows practical math functions used in games
-- Demonstrates combining multiple operators in calculations
-- Real-world examples of mathematical operators in game development
-
 ---
 
 ## String Operations
@@ -133,45 +92,6 @@ What does this code do?
 - `.includes()` checks if text contains substring
 - `.replace()` swaps one text for another
 - Essential for text manipulation
-
-```javascript
-// Advanced string operations
-let itemList = "sword,shield,potion,bow";
-
-// Split and join for data conversion
-let items = itemList.split(","); // ["sword", "shield", "potion", "bow"]
-console.log(items[0]); // sword
-console.log(items.join(" | ")); // sword | shield | potion | bow
-
-// String manipulation for formatting
-function formatPlayerStats(name, health, level) {
-    return name.toUpperCase() + " - Health: " + health + " Level: " + level;
-}
-
-let stats = formatPlayerStats("astro", 100, 5);
-console.log(stats); // ASTRO - Health: 100 Level: 5
-
-// Search and extract
-let fullName = "Guard_Patrol_001";
-if (fullName.includes("Guard")) {
-    console.log("This is a guard unit");
-}
-
-let index = fullName.indexOf("Patrol");
-let guardType = fullName.substring(0, index - 1);
-console.log(guardType); // Guard
-```
-
-What does this code do?
-
-- `.split()` breaks string into array using delimiter
-- `.join()` combines array into string with separator
-- Shows formatting strings for display
-- `.includes()` and `.indexOf()` find text patterns
-- `.substring()` extracts specific portions
-- Demonstrates data processing with strings
-- Real-world parsing and formatting examples
-
 ---
 
 ## Boolean Expressions
@@ -189,76 +109,44 @@ Benefits of boolean expressions?
 - Essential for decision-making in programs
 
 ```javascript
-// Comparison operators
+// Game scenario: Checking if player can attack
 let playerHealth = 50;
-let enemyHealth = 30;
-
-console.log(playerHealth > enemyHealth); // true (greater than)
-console.log(playerHealth < enemyHealth); // false (less than)
-console.log(playerHealth === 50); // true (equal to)
-console.log(playerHealth !== 100); // true (not equal to)
-console.log(playerHealth >= 50); // true (greater than or equal)
-console.log(playerHealth <= 100); // true (less than or equal)
-
-// Logical operators combining conditions
 let hasAmmo = true;
 let targetInRange = true;
+let isAlive = true;
 
-console.log(hasAmmo && targetInRange); // true (AND - both true)
-console.log(hasAmmo || false); // true (OR - at least one true)
-console.log(!hasAmmo); // false (NOT - opposite)
+// AND operator (&&) - ALL conditions must be true
+console.log(hasAmmo && targetInRange); // true - player can attack
+console.log(hasAmmo && targetInRange && isAlive); // true - all conditions met
+console.log(hasAmmo && playerHealth > 0); // true - has ammo and alive
+
+// OR operator (||) - AT LEAST ONE condition must be true
+let hasWeapon = false;
+let hasMagic = true;
+
+console.log(hasWeapon || hasMagic); // true - player can attack with magic
+console.log(playerHealth < 20 || hasAmmo === false); // false - player has health and ammo
+
+// NOT operator (!) - Reverses/inverts the boolean
+console.log(!isAlive); // false - player IS alive
+console.log(!hasAmmo); // false - player DOES have ammo
+console.log(!(playerHealth < 10)); // true - player health is NOT below 10
+
+// Combining all three operators
+let canAttack = hasAmmo && targetInRange && isAlive;
+let shouldRun = playerHealth < 20 || hasAmmo === false;
+let isSafe = !(playerHealth < 10 && targetInRange);
+
+console.log(canAttack); // true - all conditions for attack are met
+console.log(shouldRun); // false - player doesn't need to run
+console.log(isSafe); // true - player is not in danger
 ```
 
 What does this code do?
 
-- Comparison operators (>, <, ===, !==, >=, <=) check values
-- && (AND) requires both conditions true
-- || (OR) requires at least one condition true
-- ! (NOT) reverses boolean value
-- Essential for if statements and game logic
-- Shows how to combine multiple conditions
-
-```javascript
-// Complex boolean expressions in game logic
-let playerHealth = 100;
-let playerAmmo = 5;
-let isReloading = false;
-let targetInRange = true;
-let hasLineOfSight = true;
-
-// Can player shoot?
-if (playerAmmo > 0 && !isReloading && targetInRange && hasLineOfSight) {
-    console.log("Fire!");
-    playerAmmo--;
-}
-
-// Is player safe to move?
-if (playerHealth > 25 || (playerAmmo > 0 && targetInRange === false)) {
-    console.log("Moving to new position");
-}
-
-// Complex condition combining AND/OR
-let canAttack = (playerHealth > 50 && playerAmmo >= 3) || (playerHealth > 75 && playerAmmo > 0);
-if (canAttack) {
-    console.log("Attack!");
-}
-
-// Nested conditions
-let levelComplete = false;
-let allEnemiesDead = true;
-let allObjectivesMetup = true;
-
-if (allEnemiesDead && allObjectivesMetup) {
-    levelComplete = true;
-    console.log("Level won!");
-}
-```
-
-What does this code do?
-
-- Combines multiple conditions with && and ||
-- Uses ! to invert conditions
-- Shows practical game logic decisions
-- Demonstrates complex boolean expressions
-- Shows how conditions control game flow
-- Real-world examples of conditional game mechanics
+- **AND operator (&&)**: Checks if ALL conditions are true. `hasAmmo && targetInRange` only returns true if both are true
+- **OR operator (||)**: Checks if AT LEAST ONE condition is true. `hasWeapon || hasMagic` returns true if player has either weapon or magic
+- **NOT operator (!)**: Inverts/reverses a boolean. `!isAlive` returns the opposite of isAlive's value
+- Game scenario: Player can only attack if they have ammo AND target is in range AND player is alive
+- Shows practical decision-making: combining multiple conditions for game logic
+- Essential for controlling complex game behavior based on multiple factors
