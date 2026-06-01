@@ -21,6 +21,7 @@ Benefits of iteration?
 - Scale to handle any number of items
 
 # For Loop
+
 ```javascript
 
 if (distFromPlayer < minSpawnDist) continue;
@@ -47,8 +48,10 @@ This code uses a **for loop** to iterate through all previously spawned ghost po
 - This prevents ghosts from spawning too close to each other in the game
 
 # While loop
+
 ```javascript
-      const edge = Math.floor(Math.random() * 4);
+ while (!validSpawn) {
+                const edge = Math.floor(Math.random() * 4);
                 switch (edge) {
                     case 0: xPos = Math.random() * width;  yPos = -80;          break; // top
                     case 1: xPos = Math.random() * width;  yPos = height + 80;  break; // bottom
@@ -67,6 +70,7 @@ This code uses a **switch statement** (often paired with a while loop that keeps
 - This creates ghost spawning points around the game boundaries
 
 # ForEach loop
+
 ```javascript
         const npcs = this.gameEnv.gameObjects.filter(obj => obj.constructor.name === 'Npc');
         npcs.forEach(npc => {
