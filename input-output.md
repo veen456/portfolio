@@ -302,6 +302,14 @@ async showSequenceToPlayer() {
 
 What does this code do?
 
+- **`async` keyword** marks the function as asynchronous, allowing it to use `await` statements and return a Promise
+- `await this.delayFor(PAUSE_TIME)` pauses execution for 300ms without freezing the entire application - other code can still run during this wait
+- `await this.makeGravestoneGlow(gravestoneNumber, GLOW_TIME)` waits for the gravestone animation to complete before moving to the next gravestone
+- The loop processes each gravestone in sequence: pause → glow → repeat
+- After all gravestones have glowed, the code continues to the next line instead of blocking waiting for timers
+- Sets `isPlayerTurn = true` only after the entire sequence has finished asynchronously
+- Updates the status display to tell the player their turn
+- The game remains responsive during playback - players can still interact with the UI, and other game events can process while awaiting
 
 
 ---
