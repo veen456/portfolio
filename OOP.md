@@ -180,7 +180,8 @@ Benefits of instantiation?
 ```
 In this code from our game level:
 - We make a class called `enemyData`
-- We use the keyword `new` to instantiate the enemy using the enemy class.
+- We use the keyword `new` to instantiate the enemy using the enemy class
+
 ---
 
 ## Inheritence
