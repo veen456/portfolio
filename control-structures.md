@@ -23,19 +23,19 @@ Benefits of iteration?
 # For Loop
 ```javascript
 
-                if (distFromPlayer < minSpawnDist) continue;
+if (distFromPlayer < minSpawnDist) continue;
 
                 // Check distance from all previously spawned ghosts
-                let tooCloseToGhost = false;
-                for (const pos of spawnedPositions) {
-                    const dxGhost = xPos - pos.x;
-                    const dyGhost = yPos - pos.y;
-                    const distFromGhost = Math.sqrt(dxGhost * dxGhost + dyGhost * dyGhost);
-                    if (distFromGhost < minGhostSpacing) {
-                        tooCloseToGhost = true;
-                        break;
-                    }
-                }
+    let tooCloseToGhost = false;
+        for (const pos of spawnedPositions) {
+            const dxGhost = xPos - pos.x;
+            const dyGhost = yPos - pos.y;
+            const distFromGhost = Math.sqrt(dxGhost * dxGhost + dyGhost * dyGhost);
+            if (distFromGhost < minGhostSpacing) {
+                tooCloseToGhost = true;
+                break;
+            }
+        }
 ```
 
 What does this code do?
