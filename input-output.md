@@ -124,7 +124,8 @@ Benefits of game environment configuration?
 - Initialize game settings
 - Set up game objects
 - Prepare rendering environment
- ```javascript
+
+```javascript
  // Background configuration
 const image_data_background = {
     name: 'background',
@@ -161,7 +162,7 @@ this.classes = [
     { class: GameEnvBackground, data: image_data_background },
     { class: Player, data: sprite_data_player }
 ];
- ```
+```
 What does this code do?
 
 - **Background configuration** stores metadata about the level background image including name, greeting message, image path, and pixel dimensions
