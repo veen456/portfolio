@@ -198,67 +198,27 @@ Benefits of API integration?
 - Enable multiplayer features
 
 ```javascript
-/**
- * Plays back the current sequence by making gravestones glow in order
- */
-async showSequenceToPlayer() {
-  const GLOW_TIME = 600;   // How long each gravestone glows (milliseconds)
-  const PAUSE_TIME = 300;  // Pause between each glow (milliseconds)
+        // Background music from mansion game
+        this.backgroundMusic = new Audio(path + '/assets/sounds/mansionGame/SpookieDookie.mp3');
+        this.backgroundMusic.loop   = true;
+        this.backgroundMusic.volume = 0.4;
+        this.backgroundMusic.play();
 
-  // Play each gravestone in the sequence
-  for (let i = 0; i < this.memoryGame.sequence.length; i++) {
-    const gravestoneNumber = this.memoryGame.sequence[i];
-    
-    await this.delayFor(PAUSE_TIME);              // Short pause
-    await this.makeGravestoneGlow(gravestoneNumber, GLOW_TIME);  // Glow
-  }
-
-  // Sequence complete - now it's the player's turn!
-  this.memoryGame.isPlayerTurn = true;
-  if (this.statusDisplay) {
-    this.statusDisplay.innerHTML = 'Your turn! Click the gravestones in order.';
-  }
-}
-
-/**
- * Makes a specific gravestone glow for a duration
- * @param {number} gravestoneNumber - Which gravestone to glow (1-6)
- * @param {number} durationMs - How long to glow in milliseconds
- */
-async makeGravestoneGlow(gravestoneNumber, durationMs) {
-  const gravestone = this.memoryGame.gravestones.find(
-    gs => gs.spriteData.gravestoneIndex === gravestoneNumber
-  );
-
-  if (!gravestone || !gravestone.canvas) return;
-
-  const originalFilter = gravestone.canvas.style.filter;
-  
-  gravestone.canvas.style.filter = 'brightness(2) drop-shadow(0 0 20px yellow)';
-  gravestone.canvas.style.transition = 'filter 0.2s';
-
-  await this.delayFor(durationMs);
-
-  gravestone.canvas.style.filter = originalFilter;
-}
+        this.setupInputListener();
+        this.showStartUI();
 ```
-
 What does this code do?
 
-- **showSequenceToPlayer()** uses `async` keyword to handle asynchronous operations, allowing delays between actions
-- Defines timing constants: `GLOW_TIME` (600ms each gravestone glows) and `PAUSE_TIME` (300ms pause between gravestones)
-- Loops through each number stored in `this.memoryGame.sequence` array
-- `await this.delayFor(PAUSE_TIME)` pauses execution for 300ms before glowing the next gravestone
-- `await this.makeGravestoneGlow()` pauses execution while making a gravestone glow, then continues when complete
-- Sets `isPlayerTurn = true` to signal the game is waiting for player input
-- Updates the status display to tell the player it's their turn
-- **makeGravestoneGlow()** finds the specific gravestone object by matching its index
-- Saves the original filter style to restore it later
-- Applies visual effects: `brightness(2)` makes it twice as bright, `drop-shadow` adds a glowing yellow shadow
-- `transition: 'filter 0.2s'` smoothly animates the filter change over 0.2 seconds
-- Waits for the specified duration using `await this.delayFor(durationMs)`
-- Restores the original filter after the glow time ends
-- Demonstrates how `async/await` enables smooth, timed animations in games
+- Uses the **Audio Web API** to integrate sound resources from an external file path
+- `new Audio()` creates an audio object and uses the browser's API to handle loading the audio file asynchronously
+- `path + '/assets/sounds/mansionGame/SpookieDookie.mp3'` specifies the resource location (like calling an API endpoint)
+- `this.backgroundMusic.loop = true` configures the audio to repeat continuously
+- `this.backgroundMusic.volume = 0.4` sets the volume level to 40% via the Audio API
+- `this.backgroundMusic.play()` calls the API method to start audio playback
+- This demonstrates API integration by fetching and controlling a resource (the audio file) from the server using the browser's built-in Web API
+- The Audio API handles all the complexities of loading, decoding, and playing the file without blocking the game
+- `this.setupInputListener()` and `this.showStartUI()` execute immediately while the audio loads asynchronously in the background
+- This pattern is similar to how you'd fetch game data, save progress, or retrieve levels from a server using APIs
 
 ---
 
@@ -277,40 +237,24 @@ Benefits of asynchronous I/O?
 - Essential for modern web applications
 
 ```javascript
-/**
- * Plays back the current sequence by making gravestones glow in order
- */
-async showSequenceToPlayer() {
-  const GLOW_TIME = 600;   // How long each gravestone glows (milliseconds)
-  const PAUSE_TIME = 300;  // Pause between each glow (milliseconds)
+        // Background music from mansion game
+        this.backgroundMusic = new Audio(path + '/assets/sounds/mansionGame/SpookieDookie.mp3');
+        this.backgroundMusic.loop   = true;
+        this.backgroundMusic.volume = 0.4;
+        this.backgroundMusic.play();
 
-  // Play each gravestone in the sequence
-  for (let i = 0; i < this.memoryGame.sequence.length; i++) {
-    const gravestoneNumber = this.memoryGame.sequence[i];
-    
-    await this.delayFor(PAUSE_TIME);              // Short pause
-    await this.makeGravestoneGlow(gravestoneNumber, GLOW_TIME);  // Glow
-  }
-
-  // Sequence complete - now it's the player's turn!
-  this.memoryGame.isPlayerTurn = true;
-  if (this.statusDisplay) {
-    this.statusDisplay.innerHTML = 'Your turn! Click the gravestones in order.';
-  }
-}
+        this.setupInputListener();
+        this.showStartUI();
 ```
 
 What does this code do?
 
-- **`async` keyword** marks the function as asynchronous, allowing it to use `await` statements and return a Promise
-- `await this.delayFor(PAUSE_TIME)` pauses execution for 300ms without freezing the entire application - other code can still run during this wait
-- `await this.makeGravestoneGlow(gravestoneNumber, GLOW_TIME)` waits for the gravestone animation to complete before moving to the next gravestone
-- The loop processes each gravestone in sequence: pause → glow → repeat
-- After all gravestones have glowed, the code continues to the next line instead of blocking waiting for timers
-- Sets `isPlayerTurn = true` only after the entire sequence has finished asynchronously
-- Updates the status display to tell the player their turn
-- The game remains responsive during playback - players can still interact with the UI, and other game events can process while awaiting
-
+- `new Audio()` creates an audio object and starts loading the sound file *asynchronously* in the background without blocking the program
+- `this.backgroundMusic.loop = true` sets the audio to repeat when it finishes
+- `this.backgroundMusic.volume = 0.4` sets the volume to 40%
+- `this.backgroundMusic.play()` starts playing the audio asynchronously—it doesn't wait for the entire file to load before returning
+- `this.setupInputListener()` is called **immediately** after, without waiting for the audio file to fully load or play
+- `this.showStartUI()` also executes right away, again without blocking
 
 ---
 
