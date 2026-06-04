@@ -48,6 +48,7 @@ What does this code do?
 - The numbers for each wave represent how many enemies there are and their velocity.
 - Both of these aspects are controlled by numbers
 - The player attack cooldown is also controlled by numbers (250 milliseconds or 0.25 second shot cooldown)
+
 ---
 
 ## Strings
@@ -55,6 +56,21 @@ What does this code do?
 What are strings?
 
 Strings are text data - letters, numbers, symbols, and spaces wrapped in quotes. They're one of the most common data types you'll use when working with user input, messages, and game data.
+
+### Common String Operations
+
+| Operation | Purpose | Example |
+|-----------|---------|---------|
+| **length** | Gets number of characters | `"hello".length` returns 5 |
+| **toUpperCase()** | Converts to uppercase | `"hello".toUpperCase()` returns "HELLO" |
+| **toLowerCase()** | Converts to lowercase | `"HELLO".toLowerCase()` returns "hello" |
+| **charAt()** | Gets character at index | `"hello".charAt(0)` returns "h" |
+| **indexOf()** | Finds position of text | `"hello".indexOf("l")` returns 2 |
+| **substring()** | Extracts part of string | `"hello".substring(0, 3)` returns "hel" |
+| **split()** | Splits into array | `"hello".split("")` returns ['h','e','l','l','o'] |
+| **replace()** | Replaces text | `"hello".replace("l", "x")` returns "hexlo" |
+| **concat()** | Combines strings | `"hello".concat(" ", "world")` returns "hello world" |
+| **trim()** | Removes spaces | `"  hello  ".trim()` returns "hello" |
 
 Benefits of using strings?
 
@@ -242,7 +258,7 @@ const sprite_data_player = {
 
 What does this code do?
 
-- The `image_data_background` object stores metadata about the game background image as key-value pairs
+- The `image_data_background` object stores data about the game background image as key-value pairs
 - The `pixels` property contains a nested object that holds the image dimensions
 - The `sprite_data_player` object stores all the configuration data for a player character in one place
 - Nested objects like `INIT_POSITION`, `pixels`, and `orientation` organize related data together
